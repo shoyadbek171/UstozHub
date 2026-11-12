@@ -1,80 +1,100 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export const AcademyErp = () => {
+  const [teachers, setTeachers] = useState([
+    { id: 1, name: 'Anvar Toshmatov', subject: 'Full-Stack Dasturlash', phone: '+998 90 123 45 67' },
+    { id: 2, name: 'Malika Karimova', subject: 'UI/UX Dizayn', phone: '+998 91 987 65 43' }
+  ]);
+
+  const [courses, setCourses] = useState([
+    { id: 1, title: 'React va Node.js', teacher: 'Anvar Toshmatov', price: '1,500,000 UZS' }
+  ]);
+
+  // Form state
+  const [newTeacherName, setNewTeacherName] = useState('');
+  const [newTeacherSubject, setNewTeacherSubject] = useState('');
+  const [newTeacherPhone, setNewTeacherPhone] = useState('');
+
+  const handleAddTeacher = (e) => {
+    e.preventDefault();
+    if (!newTeacherName) return;
+    setTeachers([
+      ...teachers,
+      { id: Date.now(), name: newTeacherName, subject: newTeacherSubject || 'Umumiy', phone: newTeacherPhone || '+998 00 000 00 00' }
+    ]);
+    setNewTeacherName('');
+    setNewTeacherSubject('');
+    setNewTeacherPhone('');
+    alert("O'qituvchi muvaffaqiyatli qo'shildi! ✓");
+  };
+
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-slate-900 text-white font-extrabold text-xl flex items-center justify-center">
-            NT
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h2 className="text-lg font-bold text-slate-900">Najot Ta'lim Akademiya</h2>
-              <span className="bg-indigo-50 text-indigo-600 text-[10px] font-semibold px-2 py-0.5 rounded">Multi-Tenant Verified</span>
-            </div>
-            <p className="text-xs text-slate-500">Subdomen: <span className="text-indigo-600 font-medium">najot-talim.ustozhub.uz</span></p>
-          </div>
+      <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex items-center justify-between">
+        <div>
+          <h2 className="text-lg font-bold text-slate-900">Akademiya ERP Boshqaruvi</h2>
+          <p className="text-xs text-slate-500">O'quv markazi xodimlari, o'qituvchilari va filiallarini boshqarish.</p>
         </div>
-        <div className="flex items-center gap-3">
-          <button className="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold px-4 py-2.5 rounded-xl transition">
-            Domen Sozlamalari
-          </button>
-          <button className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition">
-            + Ustoz Taklif Qilish
-          </button>
-        </div>
+        <span className="bg-emerald-50 text-emerald-600 font-bold text-xs px-3 py-1.5 rounded-xl border border-emerald-200">
+          Faol Rejim
+        </span>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
-          <h3 className="font-bold text-slate-900 text-sm">Moliya va Daromad Taqsimoti</h3>
-          <div className="space-y-3">
-            <div className="flex justify-between items-center text-xs p-3 bg-slate-50 rounded-xl">
-              <span className="text-slate-500">Jami Brutto Tushum:</span>
-              <span className="font-bold text-slate-900">12,800,000 UZS</span>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* O'qituvchi qo'shish formasi */}
+        <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+          <h3 className="font-bold text-slate-900 text-sm">Yangi O'qituvchi Qo'shish</h3>
+          <form onSubmit={handleAddTeacher} className="space-y-3">
+            <div>
+              <label className="text-xs font-semibold text-slate-700 block mb-1">O'qituvchi F.I.O</label>
+              <input 
+                type="text" 
+                value={newTeacherName}
+                onChange={(e) => setNewTeacherName(e.target.value)}
+                placeholder="Jasur Alimov" 
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-indigo-600" 
+                required 
+              />
             </div>
-            <div className="flex justify-between items-center text-xs p-3 bg-indigo-50/50 rounded-xl text-indigo-900">
-              <span>Platforma Komissiyasi (15%):</span>
-              <span className="font-bold">- 1,920,000 UZS</span>
+            <div>
+              <label className="text-xs font-semibold text-slate-700 block mb-1">Mutaxassisligi / Fan</label>
+              <input 
+                type="text" 
+                value={newTeacherSubject}
+                onChange={(e) => setNewTeacherSubject(e.target.value)}
+                placeholder="Python Dasturlash" 
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-indigo-600" 
+              />
             </div>
-            <div className="flex justify-between items-center text-xs p-3 bg-emerald-50 rounded-xl text-emerald-900">
-              <span className="font-semibold">Akademiya Sof Daromadi (85%):</span>
-              <span className="font-extrabold text-sm">10,880,000 UZS</span>
+            <div>
+              <label className="text-xs font-semibold text-slate-700 block mb-1">Telefon Raqami</label>
+              <input 
+                type="text" 
+                value={newTeacherPhone}
+                onChange={(e) => setNewTeacherPhone(e.target.value)}
+                placeholder="+998 93 444 55 66" 
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-indigo-600" 
+              />
             </div>
-          </div>
-          <button className="w-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold py-2.5 rounded-xl transition">
-            Payout (Yechib Olish) So'rov Yuborish
-          </button>
+            <button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs py-2.5 rounded-xl transition shadow">
+              O'qituvchini Ro'yxatga Olish
+            </button>
+          </form>
         </div>
 
-        <div className="lg:col-span-2 bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
-          <h3 className="font-bold text-slate-900 text-sm">Akademiya Ustozlari va Guruhlar</h3>
-          <div className="border border-slate-100 rounded-xl overflow-hidden">
-            <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 text-slate-400 font-semibold border-b border-slate-100">
-                <tr>
-                  <th className="p-3">USTOZ</th>
-                  <th className="p-3">KURSLARI</th>
-                  <th className="p-3">O'QUVCHILAR</th>
-                  <th className="p-3">ULUSH (%)</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                <tr>
-                  <td className="p-3 font-medium text-slate-900">Anvar Toshmatov</td>
-                  <td className="p-3 text-slate-600">Full-Stack React</td>
-                  <td className="p-3 text-slate-600">128 nafar</td>
-                  <td className="p-3 font-bold text-indigo-600">70% / 30%</td>
-                </tr>
-                <tr>
-                  <td className="p-3 font-medium text-slate-900">Sardor Rahimzoda</td>
-                  <td className="p-3 text-slate-600">SMM Mastery</td>
-                  <td className="p-3 text-slate-600">62 nafar</td>
-                  <td className="p-3 font-bold text-indigo-600">65% / 35%</td>
-                </tr>
-              </tbody>
-            </table>
+        {/* O'qituvchilar ro'yxati */}
+        <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+          <h3 className="font-bold text-slate-900 text-sm">Akademiya O'qituvchilari ({teachers.length})</h3>
+          <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
+            {teachers.map((t) => (
+              <div key={t.id} className="p-3 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-between text-xs">
+                <div>
+                  <h4 className="font-bold text-slate-900">{t.name}</h4>
+                  <p className="text-slate-500">{t.subject} • {t.phone}</p>
+                </div>
+                <span className="bg-indigo-50 text-indigo-600 font-bold px-2.5 py-1 rounded-lg">Faol</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>

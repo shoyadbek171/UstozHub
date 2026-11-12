@@ -12,7 +12,10 @@ function App() {
   const [currentMode, setCurrentMode] = useState('marketplace');
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Barchasi');
-  
+
+  // Real User State (Kirish va ro'yxatdan o'tishni boshqarish)
+  const [user, setUser] = useState(null); // null yoki { name, email, role }
+
   // Auth Modal State
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [authTab, setAuthTab] = useState('login');
@@ -20,6 +23,15 @@ function App() {
   const handleOpenAuth = (tab) => {
     setAuthTab(tab);
     setIsAuthOpen(true);
+  };
+
+  const handleLoginSuccess = (userData) => {
+    setUser(userData);
+    setIsAuthOpen(false);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
   };
 
   return (
@@ -30,6 +42,8 @@ function App() {
         search={search} 
         setSearch={setSearch} 
         onOpenAuth={handleOpenAuth}
+        user={user}
+        onLogout={handleLogout}
       />
 
       <main className="flex-1 max-w-7xl w-full mx-auto p-6">
@@ -53,6 +67,7 @@ function App() {
         isOpen={isAuthOpen} 
         onClose={() => setIsAuthOpen(false)} 
         initialTab={authTab}
+        onSuccess={handleLoginSuccess}
       />
     </div>
   );

@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export const StudentPanel = () => {
+  const [isLessonOpen, setIsLessonOpen] = useState(false);
+
   return (
     <div className="space-y-6">
       <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <div className="w-14 h-14 rounded-2xl bg-indigo-600 text-white font-extrabold text-xl flex items-center justify-center shadow-lg shadow-indigo-200">
-            AT
+            SO
           </div>
           <div>
             <h2 className="text-lg font-bold text-slate-900">O'quvchi Kabineti</h2>
-            <p className="text-xs text-slate-500">Azizbek Toshpulatov (ID: ST-9021)</p>
+            <p className="text-xs text-slate-500">Shoyadbek Odilov (ID: ST-9021)</p>
           </div>
         </div>
         <div className="flex items-center gap-2 bg-slate-100 p-1.5 rounded-2xl text-xs font-semibold">
@@ -45,12 +47,39 @@ export const StudentPanel = () => {
             </div>
           </div>
 
-          <button className="w-full lg:w-auto bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white text-xs font-bold px-6 py-3.5 rounded-2xl transition shadow-lg shadow-indigo-200 flex items-center justify-center gap-2 group">
+          <button 
+            onClick={() => setIsLessonOpen(true)}
+            className="w-full lg:w-auto bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white text-xs font-bold px-6 py-3.5 rounded-2xl transition shadow-lg shadow-indigo-200 flex items-center justify-center gap-2 group cursor-pointer"
+          >
             <span className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-white text-xs group-hover:scale-110 transition">▶</span>
             Darsni Davom Ettirish
           </button>
         </div>
       </div>
+
+      {/* Interaktiv Dars Modali */}
+      {isLessonOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-md p-4">
+          <div className="bg-white rounded-3xl max-w-3xl w-full p-6 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between border-b pb-3">
+              <h3 className="font-bold text-slate-900 text-base">Modul 3: React Router va Hooks</h3>
+              <button onClick={() => setIsLessonOpen(false)} className="text-slate-400 hover:text-slate-700 font-bold">✕</button>
+            </div>
+            <div className="aspect-video bg-slate-900 rounded-2xl flex items-center justify-center text-white text-sm relative overflow-hidden">
+              <div className="text-center space-y-2">
+                <span className="text-4xl">▶</span>
+                <p className="text-xs text-slate-400">Video darslik ijro etilmoqda (HLS Stream)</p>
+              </div>
+            </div>
+            <div className="flex justify-between items-center pt-2">
+              <span className="text-xs text-slate-500">Keyingi dars: Tailwind bilan Responsive dizayn</span>
+              <button onClick={() => setIsLessonOpen(false)} className="bg-indigo-600 text-white text-xs font-bold px-5 py-2.5 rounded-xl hover:bg-indigo-700 transition">
+                Darsni yakunlash ✓
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
